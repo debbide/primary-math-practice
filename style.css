@@ -1,0 +1,650 @@
+﻿/* ===== 基础样式重置 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary-color: #ec4899;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --bg-gradient-start: #fdf2f8;
+    --bg-gradient-end: #ede9fe;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: rgba(148, 163, 184, 0.2);
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 8px 30px rgba(99, 102, 241, 0.15);
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+}
+
+body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    height: 100vh;
+    overflow: hidden;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* ===== 主容器布局 ===== */
+.app-container {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    height: 100vh;
+    gap: 15px;
+    padding: 15px;
+}
+
+/* ===== 控制面板样式 ===== */
+.control-panel {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 15px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.header h1 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+/* ===== 设置卡片 ===== */
+.settings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.setting-card {
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.setting-card h3 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.setting-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+/* ===== 运算类型输入 ===== */
+.operation-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.operation-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+}
+
+.op-label {
+    min-width: 50px;
+}
+
+.op-count {
+    width: 50px;
+    padding: 4px 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.85rem;
+}
+
+.total-count {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* ===== 复选框样式 ===== */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 8px;
+    background: #f8fafc;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.checkbox-label input {
+    display: none;
+}
+
+.checkmark {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.checkbox-label input:checked+.checkmark {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-color: transparent;
+}
+
+.checkbox-label input:checked+.checkmark::after {
+    content: '✓';
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* ===== 输入框样式 ===== */
+.range-inputs {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.range-separator {
+    padding-bottom: 8px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.input-row {
+    display: flex;
+    gap: 12px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.input-group.full-width {
+    width: 100%;
+}
+
+.input-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.input-group input,
+.input-group select {
+    padding: 8px 10px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: inherit;
+    background: white;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* ===== 标题设置 ===== */
+.title-setting {
+    margin-top: 10px;
+    padding: 12px;
+    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+}
+
+/* ===== 导航链接 ===== */
+.nav-links {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    flex: 1;
+    min-width: 80px;
+    padding: 8px 12px;
+    background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.nav-link:hover {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+/* ===== 操作按钮 ===== */
+.action-buttons {
+    margin-top: auto;
+    padding-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.btn-icon {
+    font-size: 1rem;
+}
+
+.btn-generate {
+    background: linear-gradient(135deg, var(--primary-color), #818cf8);
+    color: white;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn-print {
+    background: linear-gradient(135deg, var(--success-color), #34d399);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-print:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* ===== 预览区域 ===== */
+.preview-container {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 15px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--border-color);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-header {
+    text-align: center;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+
+.preview-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+}
+
+.preview-header p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ===== 打印页面样式 ===== */
+.print-area {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sheet {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sheet-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px dashed #e2e8f0;
+}
+
+.sheet-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.sheet-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.info-item {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+/* ===== 题目网格 ===== */
+.questions-grid {
+    display: grid;
+    gap: 6px;
+}
+
+.questions-grid.cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.questions-grid.cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.questions-grid.cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.question-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    background: #f8fafc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.question-number {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-right: 6px;
+    min-width: 25px;
+}
+
+.question-content {
+    flex: 1;
+}
+
+/* ===== 占位提示 ===== */
+.placeholder-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+}
+
+.placeholder-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.placeholder-message p {
+    font-size: 1rem;
+}
+
+/* ===== 答案页 ===== */
+.answer-sheet {
+    margin-top: 20px;
+    page-break-before: always;
+}
+
+.answers-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+}
+
+.answer-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 8px;
+    background: #f0fdf4;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.answer-item .question-number {
+    color: var(--success-color);
+}
+
+.answer-value {
+    font-weight: 700;
+    color: var(--success-color);
+}
+
+/* ===== 填空题样式 ===== */
+.fill-blank {
+    display: inline-block;
+    min-width: 40px;
+    border-bottom: 2px solid var(--text-primary);
+    margin: 0 4px;
+}
+
+/* ===== 竖式运算样式 ===== */
+.vertical-calc {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 8px 12px;
+    background: #fefefe;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.vertical-calc .v-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 60px;
+}
+
+.vertical-calc .v-op {
+    margin-right: 8px;
+    font-weight: 700;
+}
+
+.vertical-calc .v-line {
+    width: 100%;
+    height: 2px;
+    background: var(--text-primary);
+    margin: 4px 0;
+}
+
+.vertical-calc .v-answer {
+    min-height: 1.5em;
+    min-width: 40px;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+/* ===== 打印样式 ===== */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body {
+        background: white !important;
+        padding: 0;
+        margin: 0;
+        height: auto;
+        overflow: visible;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .app-container {
+        display: block;
+        padding: 0;
+        height: auto;
+    }
+
+    .preview-container {
+        background: none;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        overflow: visible;
+    }
+
+    .preview-header {
+        display: none;
+    }
+
+    .print-area {
+        overflow: visible;
+    }
+
+    .sheet {
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 15mm 20mm;
+        width: 210mm;
+        min-height: auto;
+    }
+
+    .sheet-header {
+        page-break-after: avoid;
+    }
+
+    .questions-grid {
+        page-break-before: avoid;
+    }
+
+    .question-item {
+        background: transparent !important;
+        padding: 8px 6px;
+        font-size: 13pt;
+        border-bottom: 1px solid #eee;
+        border-radius: 0;
+    }
+
+    .sheet-title {
+        font-size: 18pt;
+    }
+
+    .info-item {
+        font-size: 11pt;
+    }
+
+    .answer-item {
+        background: #f0fdf4 !important;
+        padding: 6px;
+        font-size: 11pt;
+    }
+
+    .vertical-calc {
+        border: 1px solid #ccc;
+    }
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 900px) {
+    .app-container {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow: auto;
+    }
+
+    body {
+        height: auto;
+        overflow: auto;
+    }
+}

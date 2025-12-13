@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>错题本 - 小学算术练习</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            height: auto;
+            overflow: auto;
+        }
+
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .wrong-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .wrong-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .wrong-question {
+            flex: 1;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .wrong-answers {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .your-answer {
+            color: #ef4444;
+        }
+
+        .correct-answer {
+            color: var(--success-color);
+            font-weight: 700;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .stat-summary {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            padding: 20px 30px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ef4444;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1>📕 错题本</h1>
+            <p>记录你做错的题目，方便复习巩固</p>
+        </div>
+
+        <div class="stat-summary">
+            <div class="stat-box">
+                <div class="stat-number" id="wrong-count">0</div>
+                <div class="stat-label">错题总数</div>
+            </div>
+        </div>
+
+        <div class="wrong-list" id="wrong-list">
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-generate" onclick="clearWrongbook()">
+                🗑️ 清空错题本
+            </button>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="index.html" class="back-link">← 返回首页</a>
+            <a href="practice.html" class="back-link" style="margin-left: 20px;">📝 继续练习</a>
+        </div>
+    </div>
+
+    <script>
+        function loadWrongbook() {
+            const wrongQuestions = JSON.parse(localStorage.getItem('wrongQuestions') || '[]');
+            const container = document.getElementById('wrong-list');
+
+            document.getElementById('wrong-count').textContent = wrongQuestions.length;
+
+            if (wrongQuestions.length === 0) {
+                container.innerHTML = '<div class="empty-message"><div class="empty-icon">🎉</div><p>太棒了！你还没有错题</p><p>继续保持！</p></div>';
+                return;
+            }
+
+            container.innerHTML = wrongQuestions.map((item, i) =>
+                '<div class="wrong-item"><span class="wrong-question">' + item.question + '</span><div class="wrong-answers"><span class="your-answer">你的答案: ' + item.userAnswer + '</span><span class="correct-answer">正确答案: ' + item.correctAnswer + '</span></div></div>'
+            ).join('');
+        }
+
+        function clearWrongbook() {
+            if (confirm('确定要清空错题本吗？')) {
+                localStorage.removeItem('wrongQuestions');
+                loadWrongbook();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadWrongbook);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小学生算术练习题生成器</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- 控制面板 -->
+        <div class="control-panel no-print">
+            <div class="header">
+                <div class="logo">
+                    <img src="logo.png" alt="算术练习" class="logo-img">
+                    <h1>算术练习题生成器</h1>
+                </div>
+                <p class="subtitle">为小学生量身打造的数学练习工具</p>
+            </div>
+
+            <div class="settings-grid">
+                <!-- 运算类型与数量 -->
+                <div class="setting-card">
+                    <h3><span class="icon">➕➖</span> 运算类型与数量</h3>
+                    <p class="setting-hint">设置每种运算的题目数量（0表示不生成）</p>
+                    <div class="operation-inputs">
+                        <div class="operation-item">
+                            <span class="op-label">➕ 加法</span>
+                            <input type="number" id="count-add" value="15" min="0" max="100" class="op-count">
+                            <span class="op-unit">道</span>
+                        </div>
+                        <div class="operation-item">
+                            <span class="op-label">➖ 减法</span>
+                            <input type="number" id="count-sub" value="15" min="0" max="100" class="op-count">
+                            <span class="op-unit">道</span>
+                        </div>
+                        <div class="operation-item">
+                            <span class="op-label">✖️ 乘法</span>
+                            <input type="number" id="count-mul" value="10" min="0" max="100" class="op-count">
+                            <span class="op-unit">道</span>
+                        </div>
+                        <div class="operation-item">
+                            <span class="op-label">➗ 除法</span>
+                            <input type="number" id="count-div" value="10" min="0" max="100" class="op-count">
+                            <span class="op-unit">道</span>
+                        </div>
+                        <div class="operation-item">
+                            <span class="op-label">🔀 混合</span>
+                            <input type="number" id="count-mixed" value="0" min="0" max="100" class="op-count">
+                            <span class="op-unit">道</span>
+                        </div>
+                        <div class="operation-item">
+                            <span class="op-label">📦 括号</span>
+                            <input type="number" id="count-bracket" value="0" min="0" max="100" class="op-count">
+                            <span class="op-unit">道</span>
+                        </div>
+                        <div class="operation-item">
+                            <span class="op-label">✏️ 填空</span>
+                            <input type="number" id="count-fillblank" value="0" min="0" max="100" class="op-count">
+                            <span class="op-unit">道</span>
+                        </div>
+                        <div class="operation-item">
+                            <span class="op-label">📐 竖式</span>
+                            <input type="number" id="count-vertical" value="0" min="0" max="100" class="op-count">
+                            <span class="op-unit">道</span>
+                        </div>
+                    </div>
+                    <div class="total-count">
+                        总计：<span id="total-questions">50</span> 道题
+                    </div>
+                </div>
+
+                <!-- 数字范围 -->
+                <div class="setting-card">
+                    <h3><span class="icon">🔢</span> 数字范围</h3>
+                    <div class="range-inputs">
+                        <div class="input-group">
+                            <label for="min-num">最小值</label>
+                            <input type="number" id="min-num" value="1" min="0" max="999">
+                        </div>
+                        <span class="range-separator">至</span>
+                        <div class="input-group">
+                            <label for="max-num">最大值</label>
+                            <input type="number" id="max-num" value="20" min="1" max="999">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 布局设置 -->
+                <div class="setting-card">
+                    <h3><span class="icon">📝</span> 布局设置</h3>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="columns">每行列数</label>
+                            <select id="columns">
+                                <option value="2">2 列</option>
+                                <option value="3" selected>3 列</option>
+                                <option value="4">4 列</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>题目顺序</label>
+                            <select id="question-order">
+                                <option value="grouped">按类型分组</option>
+                                <option value="random">随机打乱</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 高级选项 -->
+                <div class="setting-card">
+                    <h3><span class="icon">⚙️</span> 高级选项</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="no-negative" checked>
+                            <span class="checkmark"></span>
+                            减法结果不为负数
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="no-remainder" checked>
+                            <span class="checkmark"></span>
+                            除法结果为整数
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-answers">
+                            <span class="checkmark"></span>
+                            显示答案页
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 标题设置 -->
+            <div class="title-setting">
+                <div class="input-group full-width">
+                    <label for="sheet-title">练习卷标题</label>
+                    <input type="text" id="sheet-title" value="小学算术练习题" placeholder="请输入标题">
+                </div>
+            </div>
+
+            <!-- 导航链接 -->
+            <div class="nav-links">
+                <a href="practice.html" class="nav-link" onclick="savePracticeSettings()">📝 在线练习</a>
+                <a href="wrongbook.html" class="nav-link">📕 错题本</a>
+                <a href="history.html" class="nav-link">📜 历史记录</a>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button class="btn btn-generate" onclick="generateQuestions()">
+                    <span class="btn-icon">✨</span>
+                    生成题目
+                </button>
+                <button class="btn btn-print" onclick="printSheet()">
+                    <span class="btn-icon">🖨️</span>
+                    打印练习卷
+                </button>
+            </div>
+        </div>
+
+        <!-- 打印预览区域 -->
+        <div class="preview-container">
+            <div class="preview-header no-print">
+                <h2>📄 打印预览</h2>
+                <p>预览效果将按 A4 纸尺寸显示</p>
+            </div>
+
+            <div class="print-area" id="print-area">
+                <div class="sheet" id="question-sheet">
+                    <div class="sheet-header">
+                        <h1 class="sheet-title" id="display-title">小学算术练习题</h1>
+                        <div class="sheet-info">
+                            <span class="info-item">姓名：__________</span>
+                            <span class="info-item">班级：__________</span>
+                            <span class="info-item">日期：__________</span>
+                            <span class="info-item">得分：__________</span>
+                        </div>
+                    </div>
+                    <div class="questions-grid" id="questions-container">
+                        <div class="placeholder-message">
+                            <div class="placeholder-icon">📋</div>
+                            <p>点击"生成题目"按钮开始</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 答案页 -->
+                <div class="sheet answer-sheet" id="answer-sheet" style="display: none;">
+                    <div class="sheet-header">
+                        <h1 class="sheet-title">参考答案</h1>
+                    </div>
+                    <div class="answers-grid" id="answers-container">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
