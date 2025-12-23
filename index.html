@@ -119,29 +119,39 @@
                         <label class="checkbox-label">
                             <input type="checkbox" id="no-negative" checked>
                             <span class="checkmark"></span>
-                            减法结果不为负数
+                            减法不为负
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" id="no-remainder" checked>
                             <span class="checkmark"></span>
-                            除法结果为整数
+                            除法整除
                         </label>
                         <label class="checkbox-label">
                             <input type="checkbox" id="show-answers">
                             <span class="checkmark"></span>
-                            显示答案页
+                            显示答案
                         </label>
+                        <label class="checkbox-label decimal-toggle">
+                            <input type="checkbox" id="enable-decimal">
+                            <span class="checkmark"></span>
+                            小数
+                            <select id="decimal-places" class="inline-select">
+                                <option value="1">1位</option>
+                                <option value="2">2位</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 标题设置 -->
+                <div class="setting-card">
+                    <div class="inline-title-input">
+                        <span class="title-label">📋 标题</span>
+                        <input type="text" id="sheet-title" value="小学算术练习题" placeholder="请输入标题">
                     </div>
                 </div>
             </div>
 
-            <!-- 标题设置 -->
-            <div class="title-setting">
-                <div class="input-group full-width">
-                    <label for="sheet-title">练习卷标题</label>
-                    <input type="text" id="sheet-title" value="小学算术练习题" placeholder="请输入标题">
-                </div>
-            </div>
 
             <!-- 导航链接 -->
             <div class="nav-links">

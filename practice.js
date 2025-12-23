@@ -14,41 +14,102 @@ function randomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// 生成随机小数
+function randomDecimal(min, max, decimalPlaces) {
+    const multiplier = Math.pow(10, decimalPlaces);
+    const minInt = Math.ceil(min * multiplier);
+    const maxInt = Math.floor(max * multiplier);
+    const randomValue = Math.floor(Math.random() * (maxInt - minInt + 1)) + minInt;
+    return randomValue / multiplier;
+}
+
+// 格式化数字显示
+function formatNumber(num, decimalPlaces) {
+    if (Number.isInteger(num)) return num.toString();
+    return parseFloat(num.toFixed(decimalPlaces)).toString();
+}
+
 // 生成加法题目
-function generateAddQuestion(min, max) {
-    const num1 = randomInt(min, max);
-    const num2 = randomInt(min, max);
-    return { question: num1 + ' + ' + num2 + ' = ', answer: num1 + num2 };
+function generateAddQuestion(min, max, enableDecimal = false, decimalPlaces = 1) {
+    let num1, num2, answer;
+    if (enableDecimal) {
+        num1 = randomDecimal(min, max, decimalPlaces);
+        num2 = randomDecimal(min, max, decimalPlaces);
+        answer = parseFloat((num1 + num2).toFixed(decimalPlaces));
+    } else {
+        num1 = randomInt(min, max);
+        num2 = randomInt(min, max);
+        answer = num1 + num2;
+    }
+    const displayNum1 = enableDecimal ? formatNumber(num1, decimalPlaces) : num1;
+    const displayNum2 = enableDecimal ? formatNumber(num2, decimalPlaces) : num2;
+    return { question: displayNum1 + ' + ' + displayNum2 + ' = ', answer: answer };
 }
 
 // 生成减法题目
-function generateSubQuestion(min, max, noNegative) {
-    let num1 = randomInt(min, max);
-    let num2 = randomInt(min, max);
-    while (num1 === num2) num2 = randomInt(min, max);
-    if (noNegative && num1 < num2) [num1, num2] = [num2, num1];
-    return { question: num1 + ' − ' + num2 + ' = ', answer: num1 - num2 };
+function generateSubQuestion(min, max, noNegative, enableDecimal = false, decimalPlaces = 1) {
+    let num1, num2, answer;
+    if (enableDecimal) {
+        num1 = randomDecimal(min, max, decimalPlaces);
+        num2 = randomDecimal(min, max, decimalPlaces);
+        while (num1 === num2) num2 = randomDecimal(min, max, decimalPlaces);
+        if (noNegative && num1 < num2) [num1, num2] = [num2, num1];
+        answer = parseFloat((num1 - num2).toFixed(decimalPlaces));
+    } else {
+        num1 = randomInt(min, max);
+        num2 = randomInt(min, max);
+        while (num1 === num2) num2 = randomInt(min, max);
+        if (noNegative && num1 < num2) [num1, num2] = [num2, num1];
+        answer = num1 - num2;
+    }
+    const displayNum1 = enableDecimal ? formatNumber(num1, decimalPlaces) : num1;
+    const displayNum2 = enableDecimal ? formatNumber(num2, decimalPlaces) : num2;
+    return { question: displayNum1 + ' − ' + displayNum2 + ' = ', answer: answer };
 }
 
 // 生成乘法题目
-function generateMulQuestion(min, max) {
-    const mulMax = Math.min(max, 12);
-    const num1 = randomInt(Math.max(min, 2), mulMax);
-    const num2 = randomInt(Math.max(min, 2), mulMax);
-    return { question: num1 + ' × ' + num2 + ' = ', answer: num1 * num2 };
+function generateMulQuestion(min, max, enableDecimal = false, decimalPlaces = 1) {
+    let num1, num2, answer;
+    if (enableDecimal) {
+        // 小数乘法：两个操作数都是小数
+        num1 = randomDecimal(min, max, decimalPlaces);
+        num2 = randomDecimal(1, 5, decimalPlaces); // 第二个数用较小范围避免结果过大
+        answer = parseFloat((num1 * num2).toFixed(decimalPlaces));
+    } else {
+        const mulMax = Math.min(max, 12);
+        num1 = randomInt(Math.max(min, 2), mulMax);
+        num2 = randomInt(Math.max(min, 2), mulMax);
+        answer = num1 * num2;
+    }
+    const displayNum1 = enableDecimal ? formatNumber(num1, decimalPlaces) : num1;
+    const displayNum2 = enableDecimal ? formatNumber(num2, decimalPlaces) : num2;
+    return { question: displayNum1 + ' × ' + displayNum2 + ' = ', answer: answer };
 }
 
 // 生成除法题目
-function generateDivQuestion(min, max, noRemainder) {
-    if (noRemainder) {
+function generateDivQuestion(min, max, noRemainder, enableDecimal = false, decimalPlaces = 1) {
+    let num1, num2, answer;
+    if (enableDecimal) {
+        // 小数除法：两个操作数都是小数
+        num1 = randomDecimal(min, max, decimalPlaces);
+        num2 = randomDecimal(1, 5, decimalPlaces); // 除数用较小范围避免结果过小
+        // 确保除数不为0
+        while (num2 === 0) {
+            num2 = randomDecimal(1, 5, decimalPlaces);
+        }
+        answer = parseFloat((num1 / num2).toFixed(decimalPlaces));
+        const displayNum1 = formatNumber(num1, decimalPlaces);
+        const displayNum2 = formatNumber(num2, decimalPlaces);
+        return { question: displayNum1 + ' ÷ ' + displayNum2 + ' = ', answer: answer };
+    } else if (noRemainder) {
         const divMax = Math.min(max, 12);
-        const answer = randomInt(2, divMax);
-        const num2 = randomInt(2, Math.min(max, 12));
-        const num1 = answer * num2;
+        answer = randomInt(2, divMax);
+        num2 = randomInt(2, Math.min(max, 12));
+        num1 = answer * num2;
         return { question: num1 + ' ÷ ' + num2 + ' = ', answer: answer };
     } else {
-        const num1 = randomInt(min, max);
-        const num2 = randomInt(Math.max(1, min), max);
+        num1 = randomInt(min, max);
+        num2 = randomInt(Math.max(1, min), max);
         return { question: num1 + ' ÷ ' + num2 + ' = ', answer: Math.floor(num1 / num2) };
     }
 }
@@ -89,7 +150,8 @@ function startPractice() {
     let settings = {
         countAdd: 3, countSub: 3, countMul: 2, countDiv: 2,
         countMixed: 0, countBracket: 0, countFillBlank: 0,
-        minNum: 1, maxNum: 20, noNegative: true, noRemainder: true
+        minNum: 1, maxNum: 20, noNegative: true, noRemainder: true,
+        enableDecimal: false, decimalPlaces: 1
     };
 
     if (settingsStr) {
@@ -102,28 +164,30 @@ function startPractice() {
     const max = settings.maxNum || 20;
     const noNegative = settings.noNegative !== false;
     const noRemainder = settings.noRemainder !== false;
+    const enableDecimal = settings.enableDecimal || false;
+    const decimalPlaces = settings.decimalPlaces || 1;
 
     // 生成各类型题目
     for (let i = 0; i < (settings.countAdd || 0); i++) {
-        const q = generateAddQuestion(min, max);
+        const q = generateAddQuestion(min, max, enableDecimal, decimalPlaces);
         practiceQuestions.push(q.question);
         practiceAnswers.push(q.answer);
     }
 
     for (let i = 0; i < (settings.countSub || 0); i++) {
-        const q = generateSubQuestion(min, max, noNegative);
+        const q = generateSubQuestion(min, max, noNegative, enableDecimal, decimalPlaces);
         practiceQuestions.push(q.question);
         practiceAnswers.push(q.answer);
     }
 
     for (let i = 0; i < (settings.countMul || 0); i++) {
-        const q = generateMulQuestion(min, max);
+        const q = generateMulQuestion(min, max, enableDecimal, decimalPlaces);
         practiceQuestions.push(q.question);
         practiceAnswers.push(q.answer);
     }
 
     for (let i = 0; i < (settings.countDiv || 0); i++) {
-        const q = generateDivQuestion(min, max, noRemainder);
+        const q = generateDivQuestion(min, max, noRemainder, enableDecimal, decimalPlaces);
         practiceQuestions.push(q.question);
         practiceAnswers.push(q.answer);
     }
@@ -142,8 +206,16 @@ function startPractice() {
 
     // 如果没有设置题目数量，默认生成10道题
     if (practiceQuestions.length === 0) {
-        for (let i = 0; i < 5; i++) practiceQuestions.push(generateAddQuestion(1, 20).question), practiceAnswers.push(generateAddQuestion(1, 20).answer);
-        for (let i = 0; i < 5; i++) practiceQuestions.push(generateSubQuestion(1, 20, true).question), practiceAnswers.push(generateSubQuestion(1, 20, true).answer);
+        for (let i = 0; i < 5; i++) {
+            const q = generateAddQuestion(1, 20, enableDecimal, decimalPlaces);
+            practiceQuestions.push(q.question);
+            practiceAnswers.push(q.answer);
+        }
+        for (let i = 0; i < 5; i++) {
+            const q = generateSubQuestion(1, 20, true, enableDecimal, decimalPlaces);
+            practiceQuestions.push(q.question);
+            practiceAnswers.push(q.answer);
+        }
     }
 
     // 打乱顺序
@@ -153,10 +225,11 @@ function startPractice() {
         [practiceAnswers[i], practiceAnswers[j]] = [practiceAnswers[j], practiceAnswers[i]];
     }
 
-    // 渲染题目
+    // 渲染题目 - 小数模式使用 text 输入框，整数模式使用 number 输入框
+    const inputType = enableDecimal ? 'text' : 'number';
     const container = document.getElementById('practice-questions');
     container.innerHTML = practiceQuestions.map((q, i) =>
-        '<div class="practice-question"><span class="question-number">' + (i + 1) + '.</span><span class="question-text">' + q + '</span><input type="number" class="answer-input" id="answer-' + i + '" oninput="updateAnsweredCount()" placeholder="?"></div>'
+        '<div class="practice-question"><span class="question-number">' + (i + 1) + '.</span><span class="question-text">' + q + '</span><input type="' + inputType + '" class="answer-input" id="answer-' + i + '" oninput="updateAnsweredCount()" placeholder="?" inputmode="decimal"></div>'
     ).join('');
 
     document.getElementById('total-count').textContent = practiceQuestions.length;
@@ -199,10 +272,13 @@ function submitAnswers() {
 
     for (let i = 0; i < practiceQuestions.length; i++) {
         const input = document.getElementById('answer-' + i);
-        const userAnswer = parseInt(input.value) || 0;
+        const userAnswer = parseFloat(input.value) || 0;
         const correctAnswer = practiceAnswers[i];
 
-        if (userAnswer === correctAnswer) {
+        // 使用容差比较浮点数（处理精度问题）
+        const isCorrect = Math.abs(userAnswer - correctAnswer) < 0.001;
+
+        if (isCorrect) {
             correct++;
             input.classList.add('correct');
             input.classList.remove('wrong');
