@@ -415,35 +415,31 @@ function renderQuestions(columns, title, showAnswers) {
     questions.forEach((question, index) => {
         const questionDiv = document.createElement('div');
         questionDiv.className = 'question-item';
+
         // 填空题和竖式题已包含完整格式，不需要加下划线
-        const suffix = question.includes('fill-blank') || question.includes('vertical-calc') || (question.includes('= ') && !question.endsWith('= ')) ? '' : '______';
-        questionDiv.innerHTML = `
-            <span class="question-number">${index + 1}.</span>
-            <span class="question-content">${question}${suffix}</span>
-        `;
+        const isSpecialType = question.includes('fill-blank') || question.includes('vertical-calc') || (question.includes('= ') && !question.endsWith('= '));
+
+        if (showAnswers) {
+            // 显示答案模式：答案直接显示在题目后面
+            const answerDisplay = `<span class="inline-answer">${answers[index]}</span>`;
+            questionDiv.innerHTML = `
+                <span class="question-number">${index + 1}.</span>
+                <span class="question-content">${question}${answerDisplay}</span>
+            `;
+        } else {
+            // 正常模式：显示下划线
+            const suffix = isSpecialType ? '' : '______';
+            questionDiv.innerHTML = `
+                <span class="question-number">${index + 1}.</span>
+                <span class="question-content">${question}${suffix}</span>
+            `;
+        }
         questionsContainer.appendChild(questionDiv);
     });
 
-    // 渲染答案页
+    // 隐藏单独的答案页（不再使用）
     const answerSheet = document.getElementById('answer-sheet');
-    const answersContainer = document.getElementById('answers-container');
-
-    if (showAnswers) {
-        answerSheet.style.display = 'block';
-        answersContainer.innerHTML = '';
-
-        answers.forEach((answer, index) => {
-            const answerDiv = document.createElement('div');
-            answerDiv.className = 'answer-item';
-            answerDiv.innerHTML = `
-                <span class="question-number">${index + 1}.</span>
-                <span class="answer-value">${answer}</span>
-            `;
-            answersContainer.appendChild(answerDiv);
-        });
-    } else {
-        answerSheet.style.display = 'none';
-    }
+    answerSheet.style.display = 'none';
 }
 
 /**

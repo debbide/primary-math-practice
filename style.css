@@ -227,7 +227,7 @@ body {
 }
 
 .checkbox-label input:checked+.checkmark::after {
-    content: '?';
+    content: '';
     color: white;
     font-size: 10px;
     font-weight: bold;
@@ -708,4 +708,9 @@ body {
         height: auto;
         overflow: auto;
     }
+}
+/* ===== 内联答案样式 ===== */
+.inline-answer {
+    color: var(--success-color);
+    font-weight: 700;
 }
